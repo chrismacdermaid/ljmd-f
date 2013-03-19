@@ -9,16 +9,16 @@ PARALLEL=-fopenmp
 SRC=ljmd.f90
 ############################################
 # derived makefile variables
-OBJ_SERIAL=$(SRC:src/%.f90=Obj-serial/%.o)
-OBJ_PARALLEL=$(SRC:src/%.f90=Obj-parallel/%.o)
+#OBJ_SERIAL=$(SRC:src/%.f90=Obj-serial/%.o)
+#OBJ_PARALLEL=$(SRC:src/%.f90=Obj-parallel/%.o)
 ############################################
 
 default: serial parallel
 
 serial parallel:
-	$(MAKE) $(MFLAGS) -C Obj-$@
+	$(MAKE) -C Obj-$@
 
 clean:
-	$(MAKE) $(MFLAGS) -C Obj-serial clean
-	$(MAKE) $(MFLAGS) -C Obj-parallel clean
+	$(MAKE) -C Obj-serial clean
+	$(MAKE) -C Obj-parallel clean
 
