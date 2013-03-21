@@ -6,6 +6,7 @@ SUBROUTINE velverlet
   IMPLICIT NONE
 
 !  REAL(kind=dbl) :: vfac
+INTEGER :: i
 
 REAL(kind=dbl) :: vfac
 

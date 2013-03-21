@@ -5,7 +5,6 @@ pyfname = np.array('argon_108')
 
 ljmd.interface.callopen(pyfname)
 
-
 #ljmd.interface.set_natoms(108)		# natoms
 #ljmd.interface.set_mass(39.948)	# mass in AMU
 #ljmd.interface.set_epsilon(0.2379)	# epsilon in kcal/mol

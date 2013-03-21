@@ -10,18 +10,10 @@ MODULE ljmd
 SUBROUTINE lljmd
 IMPLICIT NONE
   
-<<<<<<< HEAD
   INTEGER :: i, j
   INTEGER, EXTERNAL :: omp_get_num_threads
 !  CHARACTER*(*) :: fname!restfile, trajfile, ergfile
 !  CALL openfiles(pyfname)
-=======
-  INTEGER :: nprint, i, j
- ! REAL:: natomspcsrl
-  INTEGER, EXTERNAL :: omp_get_num_threads
-  CHARACTER(len=sln) :: restfile, trajfile, ergfile
-  
->>>>>>> learn
   nthreads = 1
   !$OMP parallel shared(nthreads)
   !$OMP master
@@ -30,7 +22,6 @@ IMPLICIT NONE
   !$OMP end master
   !$OMP end parallel
 
-<<<<<<< HEAD
 !!  READ(stdin,*) natoms
 !!  READ(stdin,*) mass
 !!  READ(stdin,*) epsilon
@@ -58,36 +49,14 @@ IMPLICIT NONE
 !END SUBROUTINE
   
   ! allocate storage for simulation data.
-  ALLOCATE(pos(natoms,3),vel(natoms,3),frc(natoms,3,nthreads))
+  ALLOCATE(pos(natoms,6),vel(natoms,3),frc(natoms,3,nthreads))
 
-=======
-  READ(stdin,*) natoms
- !READ(stdin,*) mass
- !READ(stdin,*) epsilon
- !READ(stdin,*) sigma
-  READ(stdin,*) rcut
-  READ(stdin,*) box
-  CALL getline(stdin,restfile)
-  CALL getline(stdin,trajfile)
-  CALL getline(stdin,ergfile)
-  READ(stdin,*) nsteps
-  READ(stdin,*) dt
-  READ(stdin,*) nprint
-
- ! allocate storage for simulation data.
- ALLOCATE(pos(natoms,6),vel(natoms,3),frc(natoms,3,nthreads))
->>>>>>> learn
 
   ! read restart 
 !  OPEN(UNIT=33, FILE=restfile, FORM='FORMATTED', STATUS='OLD')
   DO i=1,natoms
-<<<<<<< HEAD
-     READ(12,*) (pos(i,j),j=1,3)
+     READ(12,*) (pos(i,j),j=1,6)
   END DO
-=======
-     READ(33,*) (pos(i,j),j=1,6)
-   END DO
->>>>>>> learn
   DO i=1,natoms
      READ(12,*) (vel(i,j),j=1,3)
   END DO
@@ -130,7 +99,6 @@ IMPLICIT NONE
   CALL ioclose
 
   DEALLOCATE(pos,vel,frc)
-<<<<<<< HEAD
 END SUBROUTINE lljmd
 
 SUBROUTINE openfiles(pyfname)
@@ -196,6 +164,3 @@ SUBROUTINE openfiles(pyfname)
   END SUBROUTINE openfiles
   
   END MODULE ljmd
-=======
-END PROGRAM LJMD
->>>>>>> learn
