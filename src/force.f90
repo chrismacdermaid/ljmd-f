@@ -24,8 +24,8 @@ SUBROUTINE force
   ! precompute some constants
   boxby2=0.5_dbl*box
   rcutsq=rcut*rcut
-  c12 = 4.0_dbl*epsilon*sigma**12
-  c6  = 4.0_dbl*epsilon*sigma**6
+!  c12 = 4.0_dbl*epsilon*sigma**12
+!  c6  = 4.0_dbl*epsilon*sigma**6
 
   ! first compute per cell self-interactions
   DO kk=0, ncell-1, nthreads
@@ -34,7 +34,7 @@ SUBROUTINE force
 
      DO j=1,npercell(i)-1
         ii = clist(i,j)
-        pos1 = pos(ii,:)
+        pos1 = pos(ii,1:3)
 
         DO k=j+1,npercell(i)
            jj = clist(i,k)
@@ -47,6 +47,14 @@ SUBROUTINE force
            IF (rsq < rcutsq) THEN
               rinv = 1.0_dbl/rsq
               r6 = rinv*rinv*rinv
+             
+              epsilon = SQRT(pos(ii,5)*pos(jj,5))
+              sigma = SQRT(pos(ii,6)*pos(jj,6))
+              
+               c12 = 4.0_dbl*epsilon*sigma**12
+               c6  = 4.0_dbl*epsilon*sigma**6
+
+
               ffac = (12.0_dbl*c12*r6 - 6.0_dbl*c6)*r6*rinv
               epot = epot + r6*(c12*r6 - c6)
 
@@ -66,7 +74,7 @@ SUBROUTINE force
      m = plist(2*n)
      DO j=1,npercell(i)
         ii = clist(i,j)
-        pos1 = pos(ii,:)
+        pos1 = pos(ii,1:3)
 
         DO k=1,npercell(m)
            jj = clist(m,k)
@@ -79,6 +87,14 @@ SUBROUTINE force
            IF (rsq < rcutsq) THEN
               rinv = 1.0_dbl/rsq
               r6 = rinv*rinv*rinv
+              
+             epsilon =  SQRT(pos(ii,5)*pos(jj,5))
+             sigma = SQRT (pos(ii,6)*pos(jj,6))
+              
+               c12 = 4.0_dbl*epsilon*sigma**12
+               c6  = 4.0_dbl*epsilon*sigma**6
+
+
               ffac = (12.0_dbl*c12*r6 - 6.0_dbl*c6)*r6*rinv
               epot = epot + r6*(c12*r6 - c6)
 
