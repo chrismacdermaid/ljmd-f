@@ -7,9 +7,10 @@ PROGRAM LJMD
   IMPLICIT NONE
   
   INTEGER :: nprint, i, j
+ ! REAL:: natomspcsrl
   INTEGER, EXTERNAL :: omp_get_num_threads
   CHARACTER(len=sln) :: restfile, trajfile, ergfile
-
+  
   nthreads = 1
   !$OMP parallel shared(nthreads)
   !$OMP master
@@ -19,9 +20,9 @@ PROGRAM LJMD
   !$OMP end parallel
 
   READ(stdin,*) natoms
-  READ(stdin,*) mass
-  READ(stdin,*) epsilon
-  READ(stdin,*) sigma
+ !READ(stdin,*) mass
+ !READ(stdin,*) epsilon
+ !READ(stdin,*) sigma
   READ(stdin,*) rcut
   READ(stdin,*) box
   CALL getline(stdin,restfile)
@@ -31,15 +32,14 @@ PROGRAM LJMD
   READ(stdin,*) dt
   READ(stdin,*) nprint
 
-  ! allocate storage for simulation data.
-  ALLOCATE(pos(natoms,3),vel(natoms,3),frc(natoms,3,nthreads))
-
+ ! allocate storage for simulation data.
+ ALLOCATE(pos(natoms,6),vel(natoms,3),frc(natoms,3,nthreads))
 
   ! read restart 
   OPEN(UNIT=33, FILE=restfile, FORM='FORMATTED', STATUS='OLD')
   DO i=1,natoms
-     READ(33,*) (pos(i,j),j=1,3)
-  END DO
+     READ(33,*) (pos(i,j),j=1,6)
+   END DO
   DO i=1,natoms
      READ(33,*) (vel(i,j),j=1,3)
   END DO

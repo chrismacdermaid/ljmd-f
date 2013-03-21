@@ -5,17 +5,30 @@ SUBROUTINE velverlet
   USE physconst
   IMPLICIT NONE
 
-  REAL(kind=dbl) :: vfac
+!  REAL(kind=dbl) :: vfac
 
-  vfac = 0.5_dbl * dt / mvsq2e / mass
+REAL(kind=dbl) :: vfac
 
+Do i = 1, natoms
+
+  vfac = 0.5_dbl * dt / mvsq2e / pos(i,4)
   ! first part: propagate velocities by half and positions by full step
-  vel(:,:) = vel(:,:) + vfac*frc(:,:,1)
-  pos(:,:) = pos(:,:) + dt*vel(:,:)
+  vel(i,:) = vel(i,:) + vfac*frc(i,:,1)
+  pos(i,1:3) = pos(i,1:3) + dt*vel(i,:)
 
   ! compute forces and potential energy 
   CALL force
 
   ! second part: propagate velocities by another half step */
-  vel(:,:) = vel(:,:) + vfac*frc(:,:,1) 
+  vel(i,:) = vel(i,:) + vfac*frc(i,:,1) 
+
+END DO
 END SUBROUTINE velverlet
+
+
+
+
+
+
+
+
