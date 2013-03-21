@@ -1,0 +1,13 @@
+MODULE toread
+SUBROUTINE readfile
+    IMPLICIT NONE
+    READ(11,*) natoms
+    READ(11,*) mass
+    READ(11,*) epsilon
+    READ(11,*) sigma
+    READ(11,*) rcut
+    READ(11,*) box
+    READ(11,*) nsteps
+    READ(11,*) dt
+    READ(11,*) nprint
+END SUBROUTINE

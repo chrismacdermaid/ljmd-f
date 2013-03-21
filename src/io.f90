@@ -2,10 +2,10 @@ MODULE io
   USE kinds
   IMPLICIT NONE
   PRIVATE 
-  INTEGER, PARAMETER :: stdin=5, stdout=6, log=30, xyz=31
-  PUBLIC :: ioopen, ioclose, output, stdin, stdout, getline
+  INTEGER, PARAMETER :: stdin=5, stdout=6, log=15, xyz=13
+  PUBLIC :: ioclose, output, stdin, stdout, getline ! ioopen
 
-CONTAINS
+ CONTAINS
   SUBROUTINE getline(chan, line)
     INTEGER, INTENT(IN) :: chan
     CHARACTER(LEN=sln), INTENT(OUT) :: line
@@ -21,11 +21,11 @@ CONTAINS
     END IF
   END SUBROUTINE getline
 
-  SUBROUTINE ioopen(logname, xyzname)
-    CHARACTER(LEN=sln) :: logname, xyzname
-    OPEN(UNIT=log, FILE=TRIM(logname), STATUS='UNKNOWN', FORM='FORMATTED')
-    OPEN(UNIT=xyz, FILE=TRIM(xyzname), STATUS='UNKNOWN', FORM='FORMATTED')
-  END SUBROUTINE ioopen
+!  SUBROUTINE ioopen(logname, xyzname)
+!    CHARACTER(LEN=sln) :: logname, xyzname
+!    OPEN(UNIT=log, FILE=TRIM(logname), STATUS='UNKNOWN', FORM='FORMATTED')
+!    OPEN(UNIT=xyz, FILE=TRIM(xyzname), STATUS='UNKNOWN', FORM='FORMATTED')
+!  END SUBROUTINE ioopen
   
   SUBROUTINE ioclose
     CLOSE(UNIT=log)

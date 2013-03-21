@@ -8,10 +8,10 @@ SRC=kinds.f90 physconst.f90 mdsys.f90 getekin.f90 utils.f90 io.f90 cell.f90 forc
 VPATH=../src
 OBJ=$(SRC:%.f90=%.o)
 
-default: ../ljmd-parallel.x
+default: ljmd.so
 
 clean:
-	rm -f *.mod *.o ../ljmd-parallel.x
+	rm -f *.mod *.o *.a *.so
 
 # linker rule
 ../ljmd-parallel.x: $(OBJ)
@@ -23,3 +23,15 @@ clean:
 
 # dependencies
 ljmd.o: ljmd.f90
+
+# signature file creation
+ljmd.pyf : ../src/interface.f90
+	f2py -m ljmd -h $@ $<
+
+# concatenation of libraries
+libljmd.a : $(OBJ)	
+	ar crvs $@ $^	
+
+# compilation of share library
+ljmd.so : ljmd.pyf libljmd.a
+	f2py -m ljmd --fcompiler=gfortran -c $^	
